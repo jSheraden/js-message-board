@@ -36,6 +36,8 @@
     "nodemon": "^1.11.0",
     "npm-run-all": "^4.0.2",
     "path": "^0.12.7",
+    "pg": "^6.1.5",
+    "pg-hstore": "^2.3.2",
     "react": "^15.4.1",
     "react-bootstrap": "^0.30.7",
     "react-dom": "^15.4.1",
