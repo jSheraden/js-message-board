@@ -1,13 +1,41 @@
-import express from 'express';
-import path from 'path';
-import favicon from 'serve-favicon';
-import logger from 'morgan';
+import express      from 'express';
+import path         from 'path';
+import favicon      from 'serve-favicon';
+import logger       from 'morgan';
 import cookieParser from 'cookie-parser';
-import bodyParser from 'body-parser';
-import routes from './routes/index';
-import users from './routes/users';
+import bodyParser   from 'body-parser';
+import passport     from 'passport';
+import { Strategy } from 'passport-local';
+import routes       from './routes/index';
+import users        from './routes/users';
+import login        from './routes/login';
+import db           from './db';
 
 const app = express();
+
+passport.use(new Strategy((username, password, cb) => {
+  db.Users.findByUsername(username, (err, user) => {
+    if (err) {
+      return cb(err);
+    }
+    
+    if (!user || user.password != password) {
+      return cb(null, false);
+    }
+    
+    return cb(null, user);
+  });
+}));
+
+passport.serializeUser((user, cb) => {
+  cb(null, user.id);
+});
+
+passport.deserializeUser((id, cb) => {
+  db.Users.findById((id, (err, user) => {
+    return err ? cb(err) : cb(null, user);
+  }));
+});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -20,6 +48,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/', routes);
 app.use('/users', users);

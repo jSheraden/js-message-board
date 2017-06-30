@@ -2,9 +2,9 @@ import { Router } from 'express';
 
 const router = new Router();
 
-// Get user data.
+// Get the user login page.
 router.get('/', (req, res, next) => {
-  // do something here.
+  res.render('login', { title: 'User Login' });
 });
 
 export default router;
