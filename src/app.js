@@ -11,7 +11,7 @@ import users        from './routes/users';
 import login        from './routes/login';
 import db           from './db';
 
-const app = express();
+const app = new express();
 
 passport.use(new Strategy((username, password, cb) => {
   db.Users.findByUsername(username, (err, user) => {
