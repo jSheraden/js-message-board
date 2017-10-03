@@ -9,20 +9,20 @@ import { Strategy } from 'passport-local';
 import routes       from './routes/index';
 import users        from './routes/users';
 import login        from './routes/login';
-import db           from './db';
+import models       from './db/models';
 
 const app = new express();
 
 passport.use(new Strategy((username, password, cb) => {
-  db.Users.findByUsername(username, (err, user) => {
+  models.Users.findByUsername(username, (err, user) => {
     if (err) {
       return cb(err);
     }
-    
+
     if (!user || user.password != password) {
       return cb(null, false);
     }
-    
+
     return cb(null, user);
   });
 }));
@@ -32,7 +32,7 @@ passport.serializeUser((user, cb) => {
 });
 
 passport.deserializeUser((id, cb) => {
-  db.Users.findById((id, (err, user) => {
+  models.Users.findById((id, (err, user) => {
     return err ? cb(err) : cb(null, user);
   }));
 });
