@@ -8,7 +8,7 @@ import passport     from 'passport';
 import { Strategy } from 'passport-local';
 import routes       from './routes/index';
 import users        from './routes/users';
-import login        from './routes/login';
+import posts        from './routes/posts';
 import models       from './db/models';
 
 const app = new express();
@@ -54,6 +54,7 @@ app.use(passport.session());
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/posts', posts);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

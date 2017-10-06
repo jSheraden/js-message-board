@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1 Sign up
+  form(method='POST', action='/users')
+    p
+      span Username:&nbsp;
+      input(type='text', name='name')
+    p
+      span Password:&nbsp;&nbsp;
+      input(type='password', name='password')
+    p
+      input(type='submit', value='Submit')

@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  h1 New Post
+  form(method='POST', action='/posts')
+    input(type='text', name='body')
+    input(type='submit', value='Submit')

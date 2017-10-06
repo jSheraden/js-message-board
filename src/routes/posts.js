@@ -3,20 +3,23 @@ import models from '../db/models';
 
 const router = new Router();
 
-// Get user data.
 router.get('/', (req, res, next) => {
-  models.User.findAll().then(users => {
-    res.send(users);
+  models.Post.findAll().then(posts => {
+    res.send(posts);
   });
 });
 
 router.post('/', (req, res, next) => {
-  models.User.create({
-    name: req.body.name,
-    password: req.body.password
+  models.Post.create({
+    body: req.body.body,
+    type: 'post'
   }).then(() => {
     res.redirect('/');
   });
+});
+
+router.get('/new', (req, res, next) => {
+  res.render('newPost', {});
 });
 
 export default router;
