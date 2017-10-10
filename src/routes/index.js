@@ -12,8 +12,4 @@ router.get('/signup', (req, res, next) => {
   res.render('signup', {});
 });
 
-router.get('/joey', (req, res, next) => {
-  res.render('index', { title: 'Joey\'s Page' });
-});
-
 export default router;

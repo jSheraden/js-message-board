@@ -14,7 +14,7 @@ import models       from './db/models';
 const app = new express();
 
 passport.use(new Strategy((username, password, cb) => {
-  models.Users.findByUsername(username, (err, user) => {
+  models.User.findByUsername(username, (err, user) => {
     if (err) {
       return cb(err);
     }
@@ -32,7 +32,7 @@ passport.serializeUser((user, cb) => {
 });
 
 passport.deserializeUser((id, cb) => {
-  models.Users.findById((id, (err, user) => {
+  models.User.findById((id, (err, user) => {
     return err ? cb(err) : cb(null, user);
   }));
 });
