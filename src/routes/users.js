@@ -1,22 +1,25 @@
 import { Router } from 'express';
 import models from '../db/models';
 
-const router = new Router();
-
 // Get user data.
-router.get('/', (req, res, next) => {
-  models.User.findAll().then(users => {
-    res.send(users);
-  });
-});
+export default new Router()
+  .get('/', (req, res) => {
+    models.User.findAll().then(users => {
+      res.send(users);
+    });
+  })
 
-router.post('/', (req, res, next) => {
-  models.User.create({
-    name: req.body.name,
-    password: req.body.password
-  }).then(() => {
-    res.redirect('/');
-  });
-});
+  .post('/', (req, res) => {
+    models.User.create({
+      name: req.body.name,
+      password: req.body.password
+    }).then(() => {
+      res.redirect('/');
+    });
+  })
 
-export default router;
+  .get('/:name', (req, res) =>
+    models.User.findOne({
+      where: { name: req.params.name }
+    }).then(user => res.send(user))
+  );

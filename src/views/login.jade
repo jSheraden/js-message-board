@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1= title
+  form(method='POST', action='/login')
+    p
+      span Username:&nbsp;
+      input(type='text', name='username')
+    p
+      span Password:&nbsp;&nbsp;
+      input(type='password', name='password')
+    p
+      input(type='submit', value='Login')

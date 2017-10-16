@@ -1,41 +1,20 @@
-import express      from 'express';
-import path         from 'path';
-import favicon      from 'serve-favicon';
-import logger       from 'morgan';
-import cookieParser from 'cookie-parser';
-import bodyParser   from 'body-parser';
-import passport     from 'passport';
-import { Strategy } from 'passport-local';
-import routes       from './routes/index';
-import users        from './routes/users';
-import posts        from './routes/posts';
-import models       from './db/models';
+import express        from 'express';
+import session        from 'express-session';
+import path           from 'path';
+import favicon        from 'serve-favicon';
+import logger         from 'morgan';
+import cookieParser   from 'cookie-parser';
+import bodyParser     from 'body-parser';
+
+import passportConfig from './passport-config';
+import routes         from './routes/index';
+import posts          from './routes/posts';
+import users          from './routes/users';
+import threads        from './routes/threads';
+import forums         from './routes/forums';
+import categories     from './routes/categories';
 
 const app = new express();
-
-passport.use(new Strategy((username, password, cb) => {
-  models.User.findByUsername(username, (err, user) => {
-    if (err) {
-      return cb(err);
-    }
-
-    if (!user || user.password != password) {
-      return cb(null, false);
-    }
-
-    return cb(null, user);
-  });
-}));
-
-passport.serializeUser((user, cb) => {
-  cb(null, user.id);
-});
-
-passport.deserializeUser((id, cb) => {
-  models.User.findById((id, (err, user) => {
-    return err ? cb(err) : cb(null, user);
-  }));
-});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -49,12 +28,21 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(session({
+  secret: 'secret',
+  saveUninitialized: true,
+  resave: true
+}));
 
-app.use('/', routes);
-app.use('/users', users);
-app.use('/posts', posts);
+app
+  .use(passportConfig.initialize())
+  .use(passportConfig.session())
+  .use('/', routes)
+  .use('/posts', posts)
+  .use('/users', users)
+  .use('/threads', threads)
+  .use('/forums', forums)
+  .use('/categories', categories);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
