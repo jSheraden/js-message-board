@@ -1,0 +1,14 @@
+extends layout
+
+block content
+  h1 User Profile
+  - if (user)
+    ul
+      li
+        strong ID:&nbsp;
+        = user.id
+      li
+        strong Name:&nbsp;
+        = user.name
+  - else
+    strong User not found.

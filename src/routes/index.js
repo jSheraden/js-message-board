@@ -27,10 +27,10 @@ export default new Router()
         }
 
         req.logIn(user, err => {
-          console.log('Login successful!');
-
           if (err) return next(err);
 
+          console.log('Login successful!');
+          
           return res.redirect('/');
         });
       })(req, res, next);
