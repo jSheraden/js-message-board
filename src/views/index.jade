@@ -2,9 +2,17 @@ extends layout
 
 block content
   h1= title
-  p Welcome to #{title}
 
   - if (user)
     a(href='/logout') Logout
   - else
     a(href='/login') Login
+
+  ul
+    - each category in categories
+      li
+        h2= category.title
+          ul
+            - each forum in forums
+              - if (forum.categoryId == category.id)
+                a(href='/forums/#{forum.id}')= forum.title

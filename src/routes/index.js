@@ -2,14 +2,21 @@ import { Router } from 'express';
 import bodyParser from 'body-parser';
 import passportConfig from '../passport-config';
 import { ensureLoggedIn } from 'connect-ensure-login';
+import models from '../db/models';
 
 // Get the home page.
 export default new Router()
   .get('/', (req, res) =>
-    res.render('index', {
-      title: 'JavaScript Message Board',
-      user: req.user
-    })
+    models.Category.findAll().then(categories =>
+      models.Forum.findAll().then(forums =>
+        res.render('index', {
+          title: 'JavaScript Message Board',
+          user: req.user,
+          categories: categories,
+          forums: forums
+        })
+      )
+    )
   )
 
   .get('/signup', (req, res) => res.render('signup', {}))
@@ -30,7 +37,7 @@ export default new Router()
           if (err) return next(err);
 
           console.log('Login successful!');
-          
+
           return res.redirect('/');
         });
       })(req, res, next);

@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  h1 New Thread
+  form(type='POST', method='/threads')
+    input(type='text', name='title')
+    input(type='textarea', name='body')
+    input(type='submit', value='Create Thread')

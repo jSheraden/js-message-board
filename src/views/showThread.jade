@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  h1= thread.title
+
+  - if (posts)
+    ul
+      - var user
+      - each post in posts
+        li
+          - user = users.find(user => user.id == post.userId)
+          strong= user.name
+          span :&nbsp;
+          span= post.body
+
+  h2 New Post
+  form(method='POST', action='/threads/#{thread.id}/newPost')
+    p
+      span Post Body:&nbsp;
+      input(type='text', name='postBody')
+    p
+      input(type='submit', value='Submit Post')

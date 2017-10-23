@@ -1,0 +1,22 @@
+extends layout
+
+block content
+  h1= forum.title
+
+  - if (threads)
+    ul
+      - each thread in threads
+        li
+          a(href='/threads/#{thread.id}')= thread.title
+
+  .create-thread
+    h2 Create New Thread
+    form(method='POST', action='/forums/#{forum.id}/threads')
+      p
+        span Title:
+          input(type='text', name='title')
+      p
+        span Post:
+          input(type='textarea', name='firstPost')
+      p
+        input(type='submit', value='Create Thread')

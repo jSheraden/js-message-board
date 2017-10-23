@@ -11,7 +11,7 @@ export default new Router()
   .post('/', (req, res) => {
     if (req.user) {
       models.Post.create({
-        body: req.body.body,
+        body: req.body.postBody,
         type: 'post',
         userId: req.user.id
       }).then(() => {
@@ -26,25 +26,24 @@ export default new Router()
 
   .get('/:id', (req, res) =>
     models.Post.findById(req.params.id)
-    
-    .then(post => res.send(post))
+      .then(post => res.send(post))
   )
 
-  .put('/:id/update', (req, res) => {
+  .put('/:id/update', (req, res) =>
     models.Post.findById(req.params.id)
+      .then(post => {
+        post.body = req.body.body;
+        post.save();
+      })
 
-    .then(post => {
-      post.body = req.body.body;
-      post.save();
-    })
+      .then(() => res.redirect('/'))
+  )
 
-    .then(() => res.redirect('/'));
-  })
-
-  .delete('/:id/delete', (req, res) => {
-    models.Post.findById(req.params.id).then(post =>
-      post.destroy()
-    )
-
-    .then(() => res.redirect('/'));
-  });
+  .delete('/:id/delete', (req, res) =>
+    models.Post.findById(req.params.id)
+      .then(post =>
+        post.destroy()
+      ).then(() =>
+        res.redirect('/')
+      )
+  );
