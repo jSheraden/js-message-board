@@ -8,14 +8,19 @@ export default new Router()
     )
   )
 
-  .post('/', (req, res) =>
-    models.User.create({
-      name: req.body.name,
-      password: req.body.password
-    }).then(() =>
-      res.redirect('/')
-    )
-  )
+  .post('/', (req, res) => {
+    if (req.body.password === req.body.passwordConfirm) {
+      models.User.create({
+        name: req.body.name,
+        password: req.body.password,
+        email: req.body.email
+      }).then(() =>
+        res.redirect('/')
+      );
+    } else {
+      res.redirect('/register');
+    }
+  })
 
   .get('/:id', (req, res) =>
     models.User.findOne({

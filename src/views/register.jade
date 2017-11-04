@@ -1,13 +1,19 @@
 extends layout
 
 block content
-  h1 Sign up
+  h1 Register
   form(method='POST', action='/users')
+    p
+      span Email:&nbsp;
+      input(type='text', name='email')
     p
       span Username:&nbsp;
       input(type='text', name='name')
     p
-      span Password:&nbsp;&nbsp;
+      span Password:&nbsp;
       input(type='password', name='password')
+    p
+      span Confirm Password:&nbsp;
+      input(type='password', name='passwordConfirm')
     p
       input(type='submit', value='Submit')

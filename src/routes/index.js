@@ -19,7 +19,7 @@ export default new Router()
     )
   )
 
-  .get('/signup', (req, res) => res.render('signup', {}))
+  .get('/register', (req, res) => res.render('register', {}))
   .get('/login',  (req, res) => res.render('login',  { title: 'User Login' }))
 
   .post('/login',

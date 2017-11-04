@@ -4,4 +4,9 @@ html
     title= title
     link(rel='stylesheet', href='/css/style.css')
   body
+    nav
+      a(href='/') Home
+      - if (user)
+        span &nbsp;|&nbsp;
+        a(href='/profile') User Profile
     block content
