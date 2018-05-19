@@ -16,7 +16,6 @@ block content
   h2 New Post
   form(method='POST', action='/threads/#{thread.id}/newPost')
     p
-      span Post Body:&nbsp;
       input(type='text', name='postBody')
     p
       input(type='submit', value='Submit Post')
